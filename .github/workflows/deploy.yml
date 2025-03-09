@@ -1,0 +1,33 @@
+name: Deploy React + Vite to gh pages
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build-deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            # Checkout the repo
+            - name: Checkout code
+              uses: actions/checkout@v3
+            #   Setup node.js
+            - name: Setup node.js
+              uses: actions/setup-node@v3 
+              with:
+                node-version: 22
+            # Install deps
+            - name: Install deps
+              run: npm install
+            # Build the app
+            - name: Build the app
+              run: npm run build
+            - name: Deploy to GH pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                publish_dir: dist
+
+            
